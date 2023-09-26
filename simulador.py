@@ -65,7 +65,7 @@ def AFD(d, q0, F, tape):
 def AFP(d, q0, F, tape):
     stack = ['Z']
     q = q0
-    
+
     for symbol in tape:
         q, pop_item, push_item = d[q, symbol]
 
@@ -74,9 +74,11 @@ def AFP(d, q0, F, tape):
             
         if pop_item != 'λ' and pop_item != '_':
             if pop_item in stack:
-                stack.reverse()  # Invierte la lista
-                stack.remove(pop_item)  # Eliminar el ultimo item correspondiente que ingreso a la pila
-                stack.reverse()  # Invierte la lista para restaurar el orden original
+                stack.reverse() # Invierte la lista
+                stack.remove(pop_item) # Eliminar el ultimo item correspondiente que ingreso a la pila
+                stack.reverse() # Invierte la lista para restaurar el orden original
+
+    print(stack)
 
     if not F:
         return True if len(stack) == 0 else False
@@ -103,7 +105,6 @@ if __name__ == '__main__':
     tapes = argv[2]
     
     d, F, af = process_program(program)
-    print(d)
     process_tapes(tapes, d, F, af)
 
         
