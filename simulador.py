@@ -6,6 +6,11 @@ from sys import argv
 # programa = instrucciones
 
 def process_program(filename):
+    # q = estado actual
+    # a = simbolo actual
+    # x = extraer
+    # y = insertar
+    # n = nuevo estado
     d = {}
     F = set()
     af = ''
@@ -13,40 +18,33 @@ def process_program(filename):
     with open(filename) as program:
         for line in program:
             elements = line.split()
-            
+
             # automata finito
             if len(elements) == 3:
-                q, s, n = line.split()
-                
+                q, a, n = line.split()
+
                 # estado final
                 if '*' in q:
                     q = q.strip('*')
                     F.add(q)
-                    
-                # q = estado actual
-                # s = simbolo actual
-                # n = nuevo estado
-                d[q, s] = n
-                
+
+                d[q, a] = n
+
             # automata de pila
             elif len(elements) == 5:
                 q, a, x, y, n = line.split()
-                
+
                 # estado final
                 if '*' in n:
                     n = n.strip('*')
                     F.add(n)
-                if '*' in q and len(F) == 0:
+
+                if '*' in q and not F:
                     q = q.strip('*')
                     F.add(q)
-                
-                # q = estado actual
-                # a = simbolo actual
-                # x = extraer
-                # y = insertar
-                # n = nuevo estado
-                d[q, a] = n, x, y
-    
+
+                d[q, a] = (n, x, y)
+
     # validar que el diccionario no este vacio            
     if d:
         first_value = list(d.values())[0]
@@ -73,15 +71,15 @@ def AFP(d, q0, F, tape):
             stack.append(push_item)
             
         if pop_item != 'λ' and pop_item != '_':
-            if pop_item in stack:
-                stack.reverse() # Invierte la lista
-                stack.remove(pop_item) # Eliminar el ultimo item correspondiente que ingreso a la pila
-                stack.reverse() # Invierte la lista para restaurar el orden original
+            for i, item in enumerate(stack):
+                if item == pop_item:
+                    stack.pop(i)
+                    break
 
-    print(stack)
+    print(list(reversed(stack)))
 
     if not F:
-        return True if len(stack) == 0 else False
+        return len(stack) == 0
     else:
         return q in F
 
