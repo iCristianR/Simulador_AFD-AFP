@@ -19,7 +19,7 @@ def process_program(filename):
         for line in program:
             elements = line.split()
 
-            # automata finito
+            # automata determinista
             if len(elements) == 3:
                 q, a, n = line.split()
 
@@ -48,7 +48,7 @@ def process_program(filename):
     # validar que el diccionario no este vacio            
     if d:
         first_value = list(d.values())[0]
-        af = 'afd' if len(first_value) == 2 else 'afp'
+        af = 'afd' if len(first_value) == 1 else 'afp'
 
     return d, F, af
 
