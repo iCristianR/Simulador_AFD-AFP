@@ -67,10 +67,10 @@ def AFP(d, q0, F, tape):
     for symbol in tape:
         q, pop_item, push_item = d[q, symbol]
 
-        if push_item != 'λ' and push_item != '_':
+        if push_item != 'λ' and push_item != '_' and push_item != '':
             stack.append(push_item)
             
-        if pop_item != 'λ' and pop_item != '_':
+        if pop_item != 'λ' and pop_item != '_' and pop_item != '':
             for i, item in enumerate(stack):
                 if item == pop_item:
                     stack.pop(i)
